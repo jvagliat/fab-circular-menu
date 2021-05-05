@@ -210,7 +210,7 @@ class FabCircularMenuState extends State<FabCircularMenu>
   }
 
   Widget _applyTransformations(Widget child, int index) {
-    double angleFix = 0.0;
+    double angleFix = 30.0;
     if (widget.alignment.x == 0) {
       angleFix = 45.0 * _directionY.abs();
     } else if (widget.alignment.y == 0) {
@@ -218,8 +218,8 @@ class FabCircularMenuState extends State<FabCircularMenu>
     }
 
     final angle =
-        vector.radians(90.0 / (widget.children.length - 1) * index + angleFix);
-
+        // vector.radians(90.0 / (widget.children.length - 1) * index + angleFix);
+vector.radians(90.0 / (widget.children.length) * index *1.1+ angleFix);
     return Transform(
         transform: Matrix4.translationValues(
             (-(_ringDiameter! / 2) * cos(angle) +
@@ -309,14 +309,24 @@ class _RingPainter extends CustomPainter {
       ..color = color ?? Colors.white
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width < width! ? size.width : width!;
-
-    canvas.drawArc(
-        Rect.fromLTWH(
-            width! / 2, width! / 2, size.width - width!, size.height - width!),
-        0.0,
-        2 * pi,
-        false,
-        paint);
+    final path = Path();
+    // path.addArc(oval, startAngle, sweepAngle)
+    path.addArc(
+      Rect.fromLTWH(
+          width! / 2, width! / 2, size.width - width!, size.height - width!),
+      0.0,
+      2 * pi,
+    );
+    // canvas.drawShadow(path, Colors.black87, 50, false);
+    
+    canvas.drawPath(path, paint);
+    // canvas.drawArc(
+    //     Rect.fromLTWH(
+    //         width! / 2, width! / 2, size.width - width!, size.height - width!),
+    //     0.0,
+    //     2 * pi,
+    //     false,
+    //     paint);
   }
 
   @override
